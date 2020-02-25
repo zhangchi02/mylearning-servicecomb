@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--status用来指定log4j本身的打印日志的级别.monitorinterval用于指定log4j自动重新配置的监测间隔时间，单位是s,最小是5s.-->
+<Configuration status="WARN" monitorInterval="5">
+  <!-- 将一些常用值提取出来，然后在文件的其他部分通过${}的形式引用，这些值可以随便定义 -->
+  <Properties>
+    <!-- 定义日志文件根目录 -->
+    <Property name="logDir" value="logs123"/>
+    <!-- 定义日志的通用格式 -->
+    <Property name="genericPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    <!-- 定义日志分卷文件通用文件名形式 -->
+    <Property name="genericFilePattern" value="%d{yyyy-MM-dd}-%i"/>
+  </Properties>
+  <!-- appender们的定义，常见的有三种子节点:Console、RollingFile、File.-->
+  <Appenders>
+    <!-- 定义一个console类型定定义，
+    name:指定Appender的名字.
+    target:SYSTEM_OUT 或 SYSTEM_ERR,一般只设置默认:SYSTEM_OUT.
+    PatternLayout:输出格式，不设置默认为:%m%n.-->
+    <Console name="consoleAppender" target="SYSTEM_OUT">
+      <PatternLayout pattern="${genericPattern}"/>
+    </Console>
+    <!-- 文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用-->
+    <File name="accesslog" fileName="logs123/access.log" append="false">
+      <PatternLayout pattern="%msg%n"/>
+    </File>
+    <!-- 定义一个文件appender，如果需要，可以以这个为原型粘贴复制修改再定义适合自己的，该appender的详细解释会在教程接下来的部分给出 -->
+    <RollingRandomAccessFile name="rollingRandomAccessFileAppender" fileName="${logDir}/app.log"
+      filePattern="${logDir}/app-${genericFilePattern}.log.zip" append="true">
+      <PatternLayout pattern="${genericPattern}"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1"/>
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="1000000" compressionLevel="9"/>
+    </RollingRandomAccessFile>
+  </Appenders>
+  <!-- 定义logger们 -->
+  <Loggers>
+    <!-- 定义根logger，根logger是必须的，这里我把根logger定义为异步的，也可为定义为普通的同步的，但是注意在同步根logger和异步根logger中只能存在一个，不能两个都配置 -->
+    <asyncRoot level="info">
+      <AppenderRef ref="consoleAppender"/>
+    </asyncRoot>
+    <!-- 普通的根logger，注意，跟上面的异步跟root同时只能存在一个 -->
+    <!-- <Root level="trace"> <AppenderRef ref="consoleAppender" /> </Root> -->
+    <!-- 定义一个普通的logger，这里我定义为异步的 -->
+    <asyncLogger name="com.zhc" level="info" additivity="false">
+      <AppenderRef ref="consoleAppender"/>
+      <AppenderRef ref="rollingRandomAccessFileAppender"/>
+    </asyncLogger>
+    <!-- 定义一个普通的logger -->
+    <Logger name="org.apache.servicecomb" level="info" additivity="false">
+      <AppenderRef ref="consoleAppender"/>
+      <AppenderRef ref="rollingRandomAccessFileAppender"/>
+    </Logger>
+    <!-- 定义一个name为accesslog的logger -->
+    <Logger name="accesslog" level="info" additivity="false">
+      <AppenderRef ref="accesslog"/>
+    </Logger>
+  </Loggers>
+</Configuration>

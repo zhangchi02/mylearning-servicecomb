@@ -1,0 +1,25 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "swagger definition for mylearning.servicecomb.customeconfig.service.CommonService"
+  x-java-interface: "cse.gen.mylearning_servicecomb.customconfigfile.common.CommonServiceIntf"
+basePath: "/"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /sayHello:
+    get:
+      operationId: "sayHello"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"

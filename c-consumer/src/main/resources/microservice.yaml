@@ -1,0 +1,99 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: consumer
+  version: 0.0.0.3
+#  properties:
+#    allowCrossApp: true  
+  environment: ""
+cse:
+  service:
+    registry:
+      address: https://cse.cn-north-1.myhuaweicloud.com:443
+      #address: http://127.0.0.1:30100
+      instance:
+#        healthCheck:
+#          interval: 30          # 健康检查间隔时间，默认30秒，可选
+#          times: 3              # 健康检查检测次数，默认3次，可选
+        watch: false            # watch机制可以快速感知实例变化
+#        diagnose:
+#          interval: 12          # 实例诊断间隔，默认24小时。
+      client:
+        timeout:
+#          connection: 30000
+          heartbeat: 3000
+  config:
+    client:
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      #serverUri: http://127.0.0.1:30113
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      enabled: true
+  handler:
+    chain:
+      Provider:
+        default: bizkeeper-provider,perf-stats
+      Consumer:
+        default: bizkeeper-consumer,loadbalance,perf-stats
+#        default: auth-consumer,bizkeeper-consumer,loadbalance,perf-stats
+  rest:
+    address: 0.0.0.0:7071?sslEnabled=false
+    client:
+      connection:
+        idleTimeoutInSeconds: 80   #单位秒
+    server:
+      connection:
+        idleTimeoutInSeconds: 60  # 服务端连接超时时间，一个连接在指定时间内没有接收到请求
+  request:
+    timeout: 30000
+    simple:
+      simpleService:
+        sayOh:
+          timeout: 1
+  credentials:
+    accessKey: ak
+    secretKey: sk
+    project: cn-north-1
+    akskCustomerCipher: default
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false    # 是否在默认的日志中打印metrics日志
+      window_time: 10000 # metrics日志打印周期
+  references:
+    simple:
+      version-rule: 0.0.0.0+
+#  darklaunch:
+#    policy:
+#      simple: "{\"policyType\":\"RULE\",\"ruleItems\":[{\"groupName\":\"test\",\"groupCondition\":\"version=0.0.0.2\",\"policyCondition\":\"name=test\"}]}"
+#########SSL options
+ssl.rest.consumer.protocols: TLSv1.2
+ssl.rest.consumer.authPeer: true
+ssl.rest.consumer.checkCN.host: false
+
+#########certificates config
+ssl.rest.consumer.trustStore: trust.jks
+ssl.rest.consumer.trustStoreType: JKS
+ssl.rest.consumer.trustStoreValue: Changeme_123
+ssl.rest.consumer.keyStore: server.p12
+ssl.rest.consumer.keyStoreType: PKCS12
+ssl.rest.consumer.keyStoreValue: Changeme_123
+ssl.rest.consumer.crl: revoke.crl
+ssl.rest.consumer.sslCustomClass: com.zhc.utils.DemoSSLCustom
+
+#########SSL options
+ssl.rest.provider.protocols: TLSv1.2
+ssl.rest.provider.authPeer: false
+ssl.rest.provider.checkCN.host: false
+
+#########certificates config
+ssl.rest.provider.trustStore: trust.jks
+ssl.rest.provider.trustStoreType: JKS
+ssl.rest.provider.trustStoreValue: Changeme_123
+ssl.rest.provider.keyStore: server.p12
+ssl.rest.provider.keyStoreType: PKCS12
+ssl.rest.provider.keyStoreValue: Changeme_123
+ssl.rest.provider.crl: revoke.crl
+ssl.rest.provider.sslCustomClass: com.zhc.utils.DemoSSLCustom

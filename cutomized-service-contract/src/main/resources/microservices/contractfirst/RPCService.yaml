@@ -1,0 +1,63 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "swagger definition for mylearning.servicecomb.contract.service.RPCServiceImpl"
+  x-java-interface: "mylearning.servicecomb.contract.service.RPCService"
+basePath: "/RPCServiceImpl"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /findPerson:
+    get:
+      operationId: "findPerson"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/Person"
+  /queryGender:
+    get:
+      operationId: "queryGender"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"
+  /savePerson:
+    post:
+      operationId: "savePerson"
+      parameters:
+        - in: "body"
+          name: "person"
+          required: false
+          schema:
+            $ref: "#/definitions/Person"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/Person"
+definitions:
+  Person:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      gender:
+        type: "string"
+      data:
+        description: "data"
+    x-java-class: "mylearning.servicecomb.contract.common.Person"
