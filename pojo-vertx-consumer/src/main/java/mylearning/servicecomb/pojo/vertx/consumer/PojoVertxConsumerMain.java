@@ -11,7 +11,6 @@ import mylearning.servicecomb.pojo.vertx.consumer.service.UserService;
 public class PojoVertxConsumerMain {
 
   public static void main(String[] args) throws Exception {
-    Log4jUtils.init();
     BeanUtils.init();
     
 //    System.out.println(HelloService.sayHi("Java"));
