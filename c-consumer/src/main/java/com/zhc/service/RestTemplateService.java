@@ -1,5 +1,7 @@
 package com.zhc.service;
 
+import java.util.List;
+
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.apache.servicecomb.provider.springmvc.reference.CseHttpEntity;
 import org.apache.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
@@ -98,6 +100,19 @@ public class RestTemplateService {
         .exchange(url, HttpMethod.POST, entity, Teacher.class);
     Teacher result = responseEntity.getBody();
     LOG.info("restExchange() is invoked, response:{}", result);
+    return result;
+  }
+
+  @GetMapping("/restlistExchange")
+  public List<Teacher> restlistExchange(String name) throws Exception {
+    HttpEntity<String> entity = new HttpEntity<>(name);
+    String url = "cse://provider/provider/v0/listTeacher";
+//    MultiValueMap<String, String> headers = new HttpHeaders();
+//    headers.add("name", "JavaChassis");
+    ResponseEntity<?> responseEntity = restTemplate
+        .exchange(url, HttpMethod.POST, entity, ResponseEntity.class);
+    List<Teacher> result = (List<Teacher>) responseEntity.getBody();
+    LOG.info("restlistExchange() is invoked, response:{}", result);
     return result;
   }
 }

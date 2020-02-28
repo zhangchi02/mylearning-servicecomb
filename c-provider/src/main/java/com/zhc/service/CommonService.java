@@ -1,6 +1,8 @@
 package com.zhc.service;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.slf4j.Logger;
@@ -60,6 +62,15 @@ public class CommonService implements ICommonService {
       System.exit(0);
     }
     return method;
+  }
+
+  @PostMapping("/listTeacher")
+  public List<Teacher> listTeacher(String name) {
+    Teacher teacher = new Teacher(name, 23);
+    List<Teacher> listTeacher = new ArrayList<>();
+    listTeacher.add(teacher);
+    LOGGER.info("listTeacher() is invoked.");
+    return listTeacher;
   }
 
   @PostMapping("/queryTeacher")
