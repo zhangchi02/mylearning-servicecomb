@@ -2,7 +2,7 @@ APPLICATION_ID: mylearning-servicecomb  # 必选，应用Id 是微服务的一�
 service_description:
   name: provider            # 必选，微服务名称，通应用下的不同微服务需要有不同的名称。
   version: 0.0.0.1            # 必选，微服务版本
-  environment: "" # 可选，服务实例会将不一致的接口契约注册到sc，覆盖sc上原有的契约
+#  environment: "" # 可选，服务实例会将不一致的接口契约注册到sc，覆盖sc上原有的契约
 #  properties:              # 可选，微服务元数据配置（通过microservice.yaml文件进行配置）
 #    key1: value1           
 #    key2: value2
@@ -73,7 +73,7 @@ cse:
   handler:                                                                # 处理链配置
     chain:
       Provider:
-        default: demo-handler,qps-flowcontrol-provider,bizkeeper-provider,perf-stats
+        default: demo-handler,qps-flowcontrol-provider,bizkeeper-provider
 #        default: demo-handler,auth-provider,qps-flowcontrol-provider,bizkeeper-provider,perf-stats # 默认handler链配置在cse-solution-service-engine包中
   #proxy:                   # 通过代理链接CSE服务
     #enable: true           # 是否开启代理
@@ -82,6 +82,7 @@ cse:
     #username: yourname     # 用户名
     #passwd: yourpassword   # 密码
   metrics:
+    enabled: true
     publisher:
       defaultLog:
         enabled: false    # 是否在默认的日志中打印metrics日志
