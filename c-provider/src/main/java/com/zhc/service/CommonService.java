@@ -43,6 +43,11 @@ public class CommonService implements ICommonService {
     return "Hello," + name;
   }
 
+  @RequestMapping(path = "/bak/hello", method = RequestMethod.GET)
+  public String sayHelloBak(@RequestParam(value = "name") String name) {
+    return "bak,Hello," + name;
+  }
+
   @GetMapping("/hello/{pathVariable}/haha")
   public String testPathVariable(@PathVariable(name = "pathVariable") String pathVariable) {
     LOGGER.info("CommonService.testPathVariable is invoked. PathVariable: {}.", pathVariable);

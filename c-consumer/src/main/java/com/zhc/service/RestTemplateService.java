@@ -2,6 +2,7 @@ package com.zhc.service;
 
 import java.util.List;
 
+import org.apache.servicecomb.core.provider.consumer.InvokerUtils;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.apache.servicecomb.provider.springmvc.reference.CseHttpEntity;
 import org.apache.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
@@ -16,9 +17,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.zhc.common.Teacher;
@@ -31,6 +34,23 @@ public class RestTemplateService {
   private RestTemplate restTemplate = RestTemplateBuilder.create();
 
   CseAsyncRestTemplate cseAsyncRestTemplate = new CseAsyncRestTemplate();
+
+  @GetMapping("/uniteInvoke")
+  public String uniteInvoke(@RequestParam(name = "microserviceName") String microserviceName,
+      @RequestParam(name = "schemaId") String schemaId, @RequestParam(name = "operationName") String operationName,
+      @RequestParam(name = "param") String param) {
+    Object[] obj = {param};
+    String response = (String) InvokerUtils.syncInvoke(microserviceName, schemaId, operationName, obj);
+    return response;
+  }
+
+  @GetMapping("/hello/{path}")
+  public String callHello(@PathVariable("path") String path) {
+    LOG.info("path:{}", path);
+    String url = String.format("cse://provider/provider/v0/%s?name=Simon", path);
+    ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+    return response.getBody();
+  }
 
   @GetMapping("/asyncRest")
   public String asyncRest() throws Exception {
