@@ -47,6 +47,7 @@ cse:
 #      serverUri: https://cse.cn-east-2.myhuaweicloud.com
       refreshMode: 1                                          # 配置刷新方式（0/1），0表示watch模式，1表示pull模式。推荐显式配置为1。
       refresh_interval: 5000                                  # 配置刷新的时间间隔，单位是毫秒
+      ignoreResolveFailure: true
   monitor:                                                    # monitor服务允许微服务实例上报吞吐量等数据，并在CSE的服务治理页面上展示相关数据
     client:
       serverUri: https://cse.cn-north-1.myhuaweicloud.com:443 # 如果没有配置该地址，则会从服务中心通过服务发现的方式获取monitor地址。从华为云外部连接CSE时需要显式配置地址，在华为云上部署时推荐不配置，走sc服务发现
@@ -54,18 +55,22 @@ cse:
 #      serverUri: https://cse.cn-east-2.myhuaweicloud.com
 #      enabled: false                                          # 是否连接monitor
   rest:
-    address: 0.0.0.0:8080?sslEnabled=false           # 本服务监听的地址
+    address: 0.0.0.0:8080?sslEnabled=false           # 本服务监听的地址，不配置表示不监听
+
 #    publishPort: 9090
 #    client:
 #      connection:
 #        idleTimeoutInSeconds: 80   # 单位秒，默认30
     server:
+#      thread-count:       # rest server verticle实例数（Deprecated）,新名字：verticle-count
+#      verticle-count:     # rest server verticle实例数，如果CPU数小于8，则取CPU数；如果CPU数大于等于8，则为8
+      connection-limit: Integer.MAX_VALUE  # 允许客户端最大连接数
       connection:
         idleTimeoutInSeconds: 60   # 单位秒，默认60 服务端连接超时时间，一个连接在指定时间内没有接收到请求
   request:
     uploadService:
       uploadFile: 300
-  credentials:                    # 本地连接华为云时需要配置AK/SK，如果是在云商ServiceStage部署则不需要。直接删掉credentials配置即可。
+  credentials:                      # 本地连接华为云时需要配置AK/SK，如果是在云商ServiceStage部署则不需要。直接删掉credentials配置即可。
     accessKey: ak
     secretKey: sk
     project: cn-north-1             # 这里的值与sc/cc/monitor的地址相对应，如果配置的是域名，CSEJavaSDK可以自动截取出project
@@ -98,13 +103,25 @@ cse:
     dispatcher:
       rest:
         enabled: true
-#servicecomb.config.ignoreResolveFailure: true
   flowcontrol:
     Provider:
       qps:
         enabled: false
         global:
           limit: 1
+#  executors:
+#    default: custom-executor               # 替换全局线程池，假设新线程池bean id为custom-executor
+#    Provider:
+#      ${schemaId}: custom-executor         # 指定schema专用的线程池
+#        ${operationId}: custom-executor    # 指定operation专用的线程池
+#  executor:
+#    default:
+#      group: 2                                   # 默认值：2，创建几组线程池
+#      thread-per-group: 100                      # 每组线程池的最大线程数Deprecated，新名字：maxThreads-per-group
+#      maxThreads-per-group: 100                  # 默认值：100，每组线程池的最大线程数
+#      coreThreads-per-group: 25                  # 默认值：25，每组线程池的最小线程数，线程不会预创建，而是已经创建后，只有大于这个值的线程，才会因idle而销毁
+#      maxIdleSecond-per-group: 60                # 默认值：60，每组线程池中超过coreThreads-per-group的线程，如果idle超时，则会销毁该线程
+#      maxQueueSize-per-group: Integer.MAX_VALUE  # 默认值：Integer.MAX_VALUE每组线程池中任务队列的最大长度
 hi:
   sayHiPrefix: "Hi "
 instance_description: 
