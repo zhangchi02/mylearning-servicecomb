@@ -58,6 +58,6 @@ definitions:
         type: "string"
       gender:
         type: "string"
-      data:
-        description: "data"
+#      data:
+#        description: "data"
     x-java-class: "mylearning.servicecomb.contract.common.Person"
