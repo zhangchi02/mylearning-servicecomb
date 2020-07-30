@@ -1,13 +1,7 @@
-spring:
-  main:
-    web-application-type: none
-#server:
-#  port: 8080
-
 APPLICATION_ID: mylearning-servicecomb
 service_description:
-  name: springboot2vertxjar
-  version: 0.0.1
+  name: servicecomb2servletwar
+  version: 0.0.0.1
 cse:
   service:
     registry:
@@ -19,18 +13,23 @@ cse:
       serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
       refreshMode: 1
       refresh_interval: 5000
+    ignoreResolveFailure: true
   monitor:
     client:
       serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
       enabled: false
   rest:
-    address: 0.0.0.0:8080
+    address: 192.168.0.125:8080
+#  highway:
+#    address: 192.168.0.182:9090
+  handler:
+    chain:
+      Provider:
+        default: demo-handler,qps-flowcontrol-provider,bizkeeper-provider
   credentials:
-    accessKey: ak
-    secretKey: sk
-    project: cn-north-1
-    akskCustomerCipher: default
-  accesslog:
-    enabled: true
-    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"
-servicecomb.config.ignoreResolveFailure: true
+    accessKey: ${AK}
+    secretKey: ${SK}
+  #    project: cn-south-1
+  #    akskCustomCipher: default
+server:
+  port: 8080

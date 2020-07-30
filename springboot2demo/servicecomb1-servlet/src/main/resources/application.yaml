@@ -1,0 +1,47 @@
+server:
+  port: 32012
+
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: servicecomb1servlet
+  version: 0.0.1
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+#      address: http://192.168.0.125:30100
+      instance:
+        watch: false
+  config:
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+#      serverUri: http://192.168.0.125:30113
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      enabled: false
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false
+  rest:
+    address: 0.0.0.0:32012
+    servlet:
+      urlPattern: /rest/*
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+#    project: cn-south-1
+#    akskCustomCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"
+  uploads:
+    directory: uploadTemp
+
+servicecomb:
+  codec:
+    printErrorMessage: true

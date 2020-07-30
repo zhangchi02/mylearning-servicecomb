@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="5">
+  <Properties>
+    <Property name="logDir" value="logs123"/>
+    <Property name="genericPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    <Property name="genericFilePattern" value="%d{yyyy-MM-dd}-%i"/>
+  </Properties>
+  <Appenders>
+    <Console name="consoleAppender" target="SYSTEM_OUT">
+      <PatternLayout pattern="${genericPattern}"/>
+    </Console>
+    <File name="accesslog" fileName="logs123/provider-log4j2-vertx-jar-access.log" append="true">
+      <PatternLayout pattern="%msg%n"/>
+    </File>
+    <RollingRandomAccessFile name="rollingRandomAccessFileAppender" fileName="${logDir}/provider-log4j2-vertx-jar.log"
+      filePattern="${logDir}/provider-log4j2-vertx-jar-${genericFilePattern}.log.zip" append="true">
+      <PatternLayout pattern="${genericPattern}"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1"/>
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="1000000" compressionLevel="9"/>
+    </RollingRandomAccessFile>
+  </Appenders>
+  <Loggers>
+    <asyncRoot level="info">
+      <AppenderRef ref="consoleAppender"/>
+    </asyncRoot>
+    <Logger name="org.apache.servicecomb" level="info" additivity="false">
+      <AppenderRef ref="consoleAppender"/>
+      <AppenderRef ref="rollingRandomAccessFileAppender"/>
+    </Logger>
+    <!-- 定义一个name为accesslog的logger -->
+    <Logger name="accesslog" level="info" additivity="false">
+      <AppenderRef ref="accesslog"/>
+      <AppenderRef ref="consoleAppender"/>
+    </Logger>
+  </Loggers>
+</Configuration>

@@ -1,0 +1,35 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: servicecomb2log4j2vertx
+  version: 0.0.1
+  environment: development
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      instance:
+        watch: false
+  config:
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      enabled: false
+  handler:
+    chain:
+      Provider:
+        default: ProviderHandler,qps-flowcontrol-provider
+  rest:
+    address: 0.0.0.0:8080
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+  #    project: cn-south-1
+  #    akskCustomCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"

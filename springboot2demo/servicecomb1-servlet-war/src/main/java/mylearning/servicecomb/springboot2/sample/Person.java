@@ -1,4 +1,4 @@
-package mylearning.servicecomb.pojo.common.sample;
+package mylearning.servicecomb.springboot2.sample;
 
 public class Person {
   public String name;

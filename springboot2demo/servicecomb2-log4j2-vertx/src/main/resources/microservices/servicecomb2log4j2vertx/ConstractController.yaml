@@ -1,0 +1,26 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+#  title: "swagger definition for mylearning.servicecomb.springboot2.vertx.jar.ConstractController"
+  title: ""
+#  x-java-interface: "cse.gen.mylearning_servicecomb.contractfirst.CommonService.CommonServiceImplIntf"
+basePath: "/constractController"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /constract:
+    get:
+      operationId: "constract"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"

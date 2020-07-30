@@ -1,0 +1,72 @@
+server:
+  port: 32012
+  ssl:
+    key-store: classpath:certificates/server.p12
+    key-store-password: Changeme_123
+    key-store-type: PKCS12
+    key-alias: 1
+    trust-store: classpath:certificates/trust.jks
+    trust-store-password: Changeme_123
+    trust-store-type: JKS
+    enabled: true
+    client-auth: need
+
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: servicecomb1servletssl
+  version: 0.0.1
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com
+      instance:
+        watch: false
+  config:
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com
+      enabled: false
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false
+  rest:
+    address: 0.0.0.0:32012?sslEnabled=true
+    servlet:
+      urlPattern: /rest/*
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+  #    project: cn-south-1
+  #    akskCustomCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"
+  uploads:
+    directory: uploadTemp
+
+servicecomb:
+  codec:
+    printErrorMessage: true
+
+#ssl:
+#  #  ciphers: TLS_RSA_WITH_AES_256_GCM_SHA384
+#  rest:
+#    provider:
+#      protocols: TLSv1.2
+#      authPeer: false
+#      checkCN:
+#        host: false
+#      trustStore: trust.jks
+#      trustStoreType: JKS
+#      trustStoreValue: Changeme_123
+#      keyStore: server.p12
+#      keyStoreType: PKCS12
+#      keyStoreValue: Changeme_123
+#      crl: revoke.crl
+#      sslCustomClass: mylearning.servicecomb.springboot2.servlet.jar.utils.DemoSSLCustom

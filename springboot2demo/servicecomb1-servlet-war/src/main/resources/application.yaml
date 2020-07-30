@@ -1,0 +1,35 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: servicecomb1servletwar
+  version: 0.0.0.1
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      instance:
+        watch: false
+  config:
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      enabled: false
+  rest:
+    address: 0.0.0.0:8080
+#  highway:
+#    address: 192.168.0.182:9090
+  handler:
+    chain:
+      Provider:
+        default: demo-handler,qps-flowcontrol-provider,bizkeeper-provider
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+  #    project: cn-south-1
+  #    akskCustomCipher: default
+server:
+  port: 8080
