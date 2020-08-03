@@ -1,0 +1,40 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: edgedemoprovider
+  version: 0.0.0.1
+  environment: development
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com
+      instance:
+        watch: false
+  config:
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      enabled: false
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com
+  rest:
+    address: 0.0.0.0:8080
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+    project: cn-south-1
+    akskCustomCipher: default
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false  # 是否在默认的日志中打印metrics日志
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %H %SCB-traceId"
+  uploads:
+    directory: uploadtest  # 上传的临时文件保存在哪个目录（上传完毕后该文件夹为空），默认值null表示不支持文件上传
+    maxSize: -1  # http body的最大允许大小，单位byte，默认值-1表示无限制
+  codec:
+    printErrorMessage: true
