@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   title: "swagger definition for mylearning.servicecomb.contract.service.RPCServiceImpl"
   x-java-interface: "mylearning.servicecomb.contract.service.RPCService"
-basePath: "/RPCServiceImpl"
+basePath: "/contractfirst/v0"
 consumes:
   - "application/json"
 produces:
@@ -50,6 +50,38 @@ paths:
           description: "response of 200"
           schema:
             $ref: "#/definitions/Person"
+  /savePerson2:
+    post:
+      operationId: "savePerson2"
+      parameters:
+        - in: "query"
+          name: "name"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "person"
+          required: false
+          schema:
+            $ref: "#/definitions/Person"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/Person"
+  /saveMyDTO:
+    post:
+      operationId: "saveMyDTO"
+      parameters:
+        - in: "body"
+          name: "myDTO"
+          required: true
+          schema:
+            $ref: "#/definitions/MyDTO"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/MyDTO"
 definitions:
   Person:
     type: "object"
@@ -61,3 +93,47 @@ definitions:
 #      data:
 #        description: "data"
     x-java-class: "mylearning.servicecomb.contract.common.Person"
+  MyDTO:
+    type: "object"
+    required:
+      - "booleanA"
+      - "intA"
+      - "stringA"
+      - "myObjs"
+    properties:
+      stringA:
+        type: "string"
+        pattern: "^[^\\u4e00-\\u9fa5]+$"
+      stringB:
+        type: "string"
+      stringC:
+        type: "string"
+      intA:
+        type: "integer"
+        format: "int32"
+      intB:
+        type: "integer"
+        format: "int32"
+      intC:
+        type: "integer"
+        format: "int32"
+      booleanA:
+        type: "boolean"
+      booleanB:
+        type: "boolean"
+      booleanC:
+        type: "boolean"
+      myObjs:
+        type: "array"
+        items:
+          $ref: "#/definitions/MyObj"
+    x-java-class: "mylearning.servicecomb.contract.common.MyDTO"
+  MyObj:
+    type: "object"
+    required:
+      - "objA"
+    properties:
+      objA:
+        type: "string"
+        pattern: "^[^\\u4e00-\\u9fa5]+$"
+    x-java-class: "mylearning.servicecomb.contract.common.MyObj"

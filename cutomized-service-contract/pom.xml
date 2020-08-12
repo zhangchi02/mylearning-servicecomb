@@ -11,7 +11,7 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <cse.version>2.3.73</cse.version>
+    <cse.version>2.5.0</cse.version>
     <demo.main>mylearning.servicecomb.contract.ContractFirstMain</demo.main>
   </properties>
 
@@ -31,6 +31,15 @@
     <dependency>
       <groupId>com.huawei.paas.cse</groupId>
       <artifactId>cse-solution-service-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mylearning.servicecomb</groupId>
+      <artifactId>c-common</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
