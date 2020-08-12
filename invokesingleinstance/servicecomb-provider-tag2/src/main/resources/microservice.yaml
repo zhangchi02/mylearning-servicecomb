@@ -1,0 +1,30 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: servicecomb-provider
+  version: 0.0.0.1
+instance_description:
+  properties:
+    tags:
+      instance2: instance2
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      instance:
+        watch: false
+  config:
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  rest:
+    address: 0.0.0.0:8081
+  credentials:
+    accessKey: ak
+    secretKey: sk
+    project: cn-south-1
+    akskCustomerCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %H %SCB-traceId"
