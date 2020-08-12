@@ -1,0 +1,110 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "swagger definition for mylearning.servicecomb.contract.service.CommonServiceImpl"
+  #  title: ""
+  x-java-interface: "mylearning.servicecomb.contract.service.CommonService"
+basePath: "/contract-provider/v0"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /sayHello:
+    get:
+      operationId: "sayHello"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"
+  /duplicateName:
+    get:
+      operationId: "duplicateName"
+      parameters:
+        - name: "content"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "queryRequestId"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "headerRequestId"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "response of 200"
+          schema:
+            type: "string"
+  /getUser:
+    get:
+      operationId: "getUser"
+      parameters: []
+      responses:
+        "200":
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/BaseResponse"
+  /getUser2:
+    get:
+      operationId: "getUser2"
+      parameters: []
+      responses:
+        "200":
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/BaseResponseUser"
+definitions:
+  BaseResponseUser:
+    type: "object"
+    properties:
+      resultCode:
+        type: "integer"
+        format: "int32"
+      logicCode:
+        type: "integer"
+        format: "int32"
+      resultMsg:
+        type: "string"
+      data:
+        $ref: "#/definitions/User"
+    x-java-class: "mylearning.servicecomb.constract.common.BaseResponse<mylearning.servicecomb.constract.common.User>"
+  User:
+    type: "object"
+    properties:
+      getfId:
+        type: "string"
+      getfUsername:
+        type: "string"
+      getfPassword:
+        type: "string"
+      getfType:
+        type: "integer"
+        format: "int32"
+      getfMer:
+        type: "string"
+      permissionList:
+        type: "array"
+        items:
+          type: "object"
+    x-java-class: "mylearning.servicecomb.constract.common.User"
+  BaseResponse:
+    type: "object"
+    properties:
+      resultCode:
+        type: "integer"
+        format: "int32"
+      logicCode:
+        type: "integer"
+        format: "int32"
+      resultMsg:
+        type: "string"
+      data:
+        $ref: "#/definitions/User"
+    x-java-class: "mylearning.servicecomb.constract.common.BaseResponse"

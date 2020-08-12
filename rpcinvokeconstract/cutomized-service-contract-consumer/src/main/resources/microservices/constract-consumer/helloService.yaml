@@ -1,0 +1,148 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "swagger definition for mylearning.servicecomb.constract.service.HelloServiceImpl"
+  x-java-interface: "mylearning.servicecomb.constract.service.HelloService"
+basePath: "/HelloService"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /findPerson:
+    get:
+      operationId: "findPerson"
+      parameters:
+        - in: "query"
+          name: "name"
+          required: false
+          type: string
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/Person"
+  /uniteInvoke:
+    get:
+      operationId: "uniteInvoke"
+      parameters:
+        - name: "microserviceName"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "schemaId"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "operationName"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "param"
+          in: "query"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"
+  /findUser:
+    get:
+      operationId: "findUser"
+      parameters: []
+      responses:
+        "200":
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/BaseResponse"
+  /findUser2:
+    get:
+      operationId: "findUser2"
+      parameters: []
+      responses:
+        "200":
+          description: "response of 200"
+          schema:
+            $ref: "#/definitions/BaseResponseUser"
+  /findUser3:
+    get:
+      operationId: "findUser3"
+      parameters: []
+      responses:
+        "200":
+          description: "response of 200"
+          schema:
+            type: "string"
+  /findGender2:
+    get:
+      operationId: "findGender2"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"
+definitions:
+  BaseResponseUser:
+    type: "object"
+    properties:
+      resultCode:
+        type: "integer"
+        format: "int32"
+      logicCode:
+        type: "integer"
+        format: "int32"
+      resultMsg:
+        type: "string"
+      data:
+        $ref: "#/definitions/User"
+    x-java-class: "mylearning.servicecomb.constract.common.BaseResponse<mylearning.servicecomb.constract.common.User>"
+  User:
+    type: "object"
+    properties:
+      getfId:
+        type: "string"
+      getfUsername:
+        type: "string"
+      getfPassword:
+        type: "string"
+      getfType:
+        type: "integer"
+        format: "int32"
+      getfMer:
+        type: "string"
+      permissionList:
+        type: "array"
+        items:
+          type: "object"
+    x-java-class: "mylearning.servicecomb.constract.common.User"
+  BaseResponse:
+    type: "object"
+    properties:
+      resultCode:
+        type: "integer"
+        format: "int32"
+      logicCode:
+        type: "integer"
+        format: "int32"
+      resultMsg:
+        type: "string"
+      data:
+        $ref: "#/definitions/User"
+    x-java-class: "mylearning.servicecomb.constract.common.BaseResponse"
+  Person:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      gender:
+        type: "string"
+    x-java-class: "mylearning.servicecomb.constract.common.Person"
