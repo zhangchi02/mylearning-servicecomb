@@ -1,0 +1,48 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: connectmonitorprovider
+  version: 0.0.0.1
+  environment: development
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      instance:
+        watch: false
+  config:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+#  monitor:
+#    client:
+#      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+#      enabled: true
+  rest:
+    address: 0.0.0.0:8080
+  handler:
+    chain:
+      Provider:
+        default: bizkeeper-provider
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+    project: cn-south-1
+    akskCustomerCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"
+
+  circuitBreaker:
+#    Provider:
+#      connectmonitorprovider:
+#        CommonService:
+#          sayHello:
+#            enabled: true
+#            forceOpen: true
+#            forceClosed: false
+    Provider:
+      connectmonitorprovider:
+        enabled: true
+        forceOpen: true
+        forceClosed: false
