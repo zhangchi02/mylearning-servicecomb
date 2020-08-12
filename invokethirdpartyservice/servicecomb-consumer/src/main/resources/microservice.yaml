@@ -1,0 +1,41 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: servicecomb-consumer
+  version: 0.0.0.1
+  environment: ""
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      instance:
+        watch: false
+  config:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      enabled: true
+  handler:
+    chain:
+      Provider:
+        default: bizkeeper-provider
+      Consumer:
+        default: bizkeeper-consumer,loadbalance
+  rest:
+    address: 0.0.0.0:7071
+  credentials:
+    accessKey: ak
+    secretKey: sk
+    project: cn-south-1
+    akskCustomerCipher: default
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false
+      window_time: 10000
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %H %SCB-traceId"
