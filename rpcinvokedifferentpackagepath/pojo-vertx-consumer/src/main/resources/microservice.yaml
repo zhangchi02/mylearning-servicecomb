@@ -1,0 +1,26 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: differentpathconsumer
+  version: 0.0.1
+  environment: development
+cse:
+  service:
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      instance: 
+        watch: false
+  config:
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  rest:
+    address: 0.0.0.0:7070
+  credentials:
+    accessKey: ak
+    secretKey: sk
+    project: cn-south-1
+    akskCustomerCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"
