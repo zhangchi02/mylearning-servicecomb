@@ -1,0 +1,169 @@
+APPLICATION_ID: mylearning-servicecomb  # 必选，应用Id 是微服务的一个隔离层级，默认只有同应用下的微服务可以相互调用。
+service_description:
+  name: sslprovider            # 必选，微服务名称，通应用下的不同微服务需要有不同的名称。
+  version: 0.0.0.1            # 必选，微服务版本
+  environment: development # 可选，服务实例会将不一致的接口契约注册到sc，覆盖sc上原有的契约
+#  properties:              # 可选，微服务元数据配置（通过microservice.yaml文件进行配置）
+#    key1: value1           
+#    key2: value2
+#  description: This is a description about the microservice # 可选，微服务描述
+#  propertyExtentedClass: org.apache.servicecomb.serviceregistry.MicroServicePropertyExtendedStub # 可选，微服务元数据配置（通过实现接口PropertyExtended进行配置），接口返回的配置会覆盖配置文件中key相同的配置。
+basePath: provider
+instance_description:      # 可选，实例描述
+  #  initialStatus: TESTING  # 服务实例启动注册到服务中心的状态为TESTING（拨测）
+  properties:              # 可选，服务实例元数据配置（通过microservice.yaml文件进行配置）
+    tags:
+      myinstancekey2: myinstancevalue2
+#  propertyExtentedClass: org.apache.servicecomb.serviceregistry.MicroServicePropertyExtendedStub # 可选，微服务元数据配置（通过实现接口PropertyExtended进行配置），接口返回的配置会覆盖配置文件中key相同的配置。   
+cse:
+  service:  # 服务中心提供了微服务注册、管理、发现功能
+    #    publishAddress: "zookeeperadapter-92720-0.zookeeperadapter-92720-none.12950"  # 不符合URI规范，12950是纯数字，需要在1前加英文字符
+    #    publishAddress: zookeeper-0.zookeeper
+    registry:
+      address: https://cse.cn-south-1.myhuaweicloud.com # 服务中心的地址。
+      #      address: http://127.0.0.1:30100 #服务中心的地址。
+      instance:
+        watch: false  # 是否采用watch模式监听实例变化。推荐将这个选项显式配置为false，即使用pull模式。配置为true的话需要连接物理引擎，watch机制可以快速感知实例变化
+        pull:
+          interval: 30  # pull模式下consumer服务刷新查询provider服务实例列表的时间间隔，默认值30s。
+        healthCheck:
+          interval: 30  # 心跳时间间隔，默认值30s，正常运行的微服务实例每隔这么长时间向sc发送一次心跳请求以维持自己的在线状态。
+          times: 3  # 允许的连续心跳失败次数，默认值3，如果出现n+1次连续心跳失败则sc认为该实例已异常关闭，将自动下线该实例
+        empty:
+          protection: true  # 是否启用空实例保护，默认值为true，表示如果从sc查询到的provider实例列表为空，将会尝试沿用本地缓存的provider实例列表
+        preferIpAddress: false  # 是否选用ip地址作为实例名称，true表示使用ip，否则使用hostname
+      client:
+        timeout:
+          connection: 1000  # 默认值1000ms，微服务连接sc超时时间
+          heartbeat: 3000  # 默认值3000ms，微服务发送心跳请求超时时间
+  #servicecomb:  # 同一个配置文件中不能同时出现相同的key，servicecomb.config=cse.config
+  config:  # 配置中心提供了存储、管理配置项的功能（微服务运行时动态变更配置的能力，下发服务治理功能）。
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com # 配置中心地址，如果为空则微服务实例不会连接配置中心。
+      #      serverUri: http://127.0.0.1:30113
+      refreshMode: 1  # 配置刷新方式（0/1），0表示watch模式，1表示pull模式。推荐显式配置为1。
+      refresh_interval: 5000  # 配置刷新的时间间隔，单位是毫秒
+#      refreshPort: 30114
+#cse:
+  monitor:  # monitor服务允许微服务实例上报吞吐量等数据，并在CSE的服务治理页面上展示相关数据
+    client:
+      enabled: true   # 是否连接monitor，默认是true
+      sslEnabled: true # 是否使用https连接，默认是true
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com # 如果没有配置该地址，则会从服务中心通过服务发现的方式(查找CseMonitoring服务)获取monitor地址，物理多租和逻辑多组都可以自动获取。
+  rest:
+    #    address: 0.0.0.0:8080?sslEnabled=false&protocol=http2  # 本服务监听的地址，不配置表示不监听，在地址后面追加protocol=http2表示启用h2c通信
+    #    address: ${VM_IP}:8080
+    address: 0.0.0.0:8080?sslEnabled=true
+    #    publishPort: 8080
+    client:
+      #      thread-count: # rest client verticle实例数（Deprecated）
+      verticle-count: 4  # rest client verticle实例数，如果CPU数小于8，则取CPU数；如果CPU数大于等于8，则为8
+      connection:
+        maxPoolSize: 5  # 对一个IP:port组合，在每个连接池中的最大连接数，默认值5
+        idleTimeoutInSeconds: 30   # 连接闲置时间，超时连接会被释放，默认30，单位秒
+        keepAlive: true  # 是否使用长连接，默认值true
+        compression: false  # 客户端是否支持启用压缩，默认值false
+      maxHeaderSize: 8192  # 客户端接收响应的最大header长度，默认值8192，单位字节
+    server:
+      #      thread-count:       # rest server verticle实例数（Deprecated）,新名字：verticle-count
+      verticle-count: 4    # rest server verticle实例数，如果CPU数小于8，则取CPU数；如果CPU数大于等于8，则为8
+      connection-limit: Integer.MAX_VALUE  # 允许客户端最大连接数，默认值Integer.MAX_VALUE
+      connection:
+        idleTimeoutInSeconds: 6   # 单位秒，默认60，服务端连接闲置超时时间，超时连接会被释放
+      compression: false # 服务端是否支持启用压缩，默认值false
+      maxInitialLineLength: 4096 # 服务端接收请求的最大 initial line 长度，默认4096，单位字节
+      maxHeaderSize: 32768 # 服务端接收请求的最大header长度，默认32768，单位字节
+      http2:
+        useAlpnEnabled: true  # 默认值true，是否启用 ALPN
+        concurrentStreams: 100 # 默认值100，一条连接中，同时支持的最大的stream并发量	以server端的concurrentStreams和client端的multiplexingLimit较小值为准
+#  highway:
+#    address: 0.0.0.0:9090
+  request:
+    uploadService:
+      uploadFile: 300
+  credentials:                      # 本地连接华为云时需要配置AK/SK，如果是在云商ServiceStage部署则不需要。直接删掉credentials配置即可。
+    accessKey: ak
+    secretKey: sk
+    project: cn-south-1             # 这里的值与sc/cc/monitor的地址相对应，如果配置的是域名，CSEJavaSDK可以自动截取出project
+    akskCustomerCipher: default
+  handler:                                                                # 处理链配置
+    chain:
+      Provider:
+        default: demo-handler,qps-flowcontrol-provider
+  #        default: demo-handler,auth-provider,qps-flowcontrol-provider,bizkeeper-provider,perf-stats # 默认handler链配置在cse-solution-service-engine包中
+  #  proxy:  #通过代理链接CSE服务
+  #    enable: true  # 是否开启代理
+  #    host: yourproxyaddress  # 代理地址
+  #    port: 80  # 代理端口
+  #    username: yourname  # 用户名
+  #    passwd: yourpassword  # 密码
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false  # 是否在默认的日志中打印metrics日志
+  #      window_time: 10000 # metrics日志打印周期
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %H %SCB-traceId"
+  uploads:
+    directory: uploadtest  # 上传的临时文件保存在哪个目录（上传完毕后该文件夹为空），默认值null表示不支持文件上传
+    maxSize: -1  # http body的最大允许大小，单位byte，默认值-1表示无限制
+  #servicecomb.http.filter.server.serverRestArgs.enabled: true
+  http:
+    dispatcher:
+      rest:
+        enabled: true
+  flowcontrol:
+    Provider:
+      qps:
+        enabled: true
+        global:
+          limit: 1
+  #  executors:
+  #    default: custom-executor  # 替换全局线程池，假设新线程池bean id为custom-executor
+  #    Provider:
+  #      ${schemaId}: custom-executor  # 指定schema专用的线程池
+  #        ${operationId}: custom-executor  # 指定operation专用的线程池
+  executor:
+    default:
+      group: 2  # 默认值：2，创建几组线程池
+      #      thread-per-group: 100  # 每组线程池的最大线程数Deprecated，新名字：maxThreads-per-group
+      maxThreads-per-group: 100  # 默认值：100，每组线程池的最大线程数
+      coreThreads-per-group: 25  # 默认值：25，每组线程池的最小线程数，线程不会预创建，而是已经创建后，只有大于这个值的线程，才会因idle而销毁
+      maxIdleSecond-per-group: 60  # 默认值：60，每组线程池中超过coreThreads-per-group的线程，如果idle超时，则会销毁该线程
+      maxQueueSize-per-group: Integer.MAX_VALUE  # 默认值：Integer.MAX_VALUE每组线程池中任务队列的最大长度
+  codec:
+    printErrorMessage: true
+
+#  circuitBreaker:
+#    Provider:
+#      provider:
+#        commonService:
+#          sayHello: # 对provider.commonService.sayHello手动熔断
+#            forceOpen: true
+#            forceClosed: false
+#            enabled: false
+hi:
+  sayHiPrefix: "Hi "
+#  testFromCC: ${testFromCC}
+test:
+  url: "conf/v1/"
+svValue: "[\\u4e00-\\u9fa5]+|\\^|\\{|\\}2"
+
+ssl:
+#  ciphers: TLS_RSA_WITH_AES_256_GCM_SHA384
+  rest:
+    provider:
+      protocols: TLSv1.2
+      authPeer: true
+      checkCN:
+        host: false
+      trustStore: D:/Projects/mylearning-servicecomb/ssldemo/certificates/trust.jks
+      trustStoreType: JKS
+      trustStoreValue: Changeme_123
+      keyStore: D:/Projects/mylearning-servicecomb/ssldemo/certificates/server.p12
+      keyStoreType: PKCS12
+      keyStoreValue: Changeme_123
+      crl: revoke.crl
+      sslCustomClass: mylearning.servicecomb.utils.DemoSSLCustom
