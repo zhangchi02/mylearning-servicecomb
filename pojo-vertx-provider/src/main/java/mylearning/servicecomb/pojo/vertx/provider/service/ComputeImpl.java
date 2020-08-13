@@ -28,4 +28,5 @@ public class ComputeImpl implements Compute {
     }
     return 0;
   }
+
 }

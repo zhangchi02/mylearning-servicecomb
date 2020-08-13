@@ -2,27 +2,35 @@ APPLICATION_ID: mylearning-servicecomb
 service_description:
   name: pojovertxconsumer
   version: 0.0.1
+  environment: development
 cse:
   service:
     registry:
-      address: https://cse.cn-north-1.myhuaweicloud.com:443
-      instance: 
+      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      instance:
         watch: false
   config:
     client:
-      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
       refreshMode: 1
       refresh_interval: 5000
   monitor:
     client:
-      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
       enabled: false
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false  # 是否在默认的日志中打印metrics日志
+  #      window_time: 10000 # metrics日志打印周期
   rest:
     address: 0.0.0.0:7070
+  highway:
+    address: 0.0.0.0:6060
   credentials:
     accessKey: ak
     secretKey: sk
-    project: cn-north-1
+    project: cn-south-1
     akskCustomerCipher: default
   accesslog:
     enabled: true
