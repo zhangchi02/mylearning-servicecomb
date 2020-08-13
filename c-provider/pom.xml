@@ -3,14 +3,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>mylearning.servicecomb</groupId>
-  <artifactId>c-provider</artifactId>
+  <artifactId>provider</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <properties>
     <!-- maven update时指定使用jre1.8 -->
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <demo.main>com.zhc.HelloWorldProviderMain</demo.main>
+    <demo.main>mylearning.servicecomb.ProviderMain</demo.main>
     <cse.version>2.3.75.RC1</cse.version>
   </properties>
 
@@ -75,12 +75,12 @@
     <dependency>
       <groupId>mylearning.servicecomb</groupId>
       <artifactId>c-common</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>mylearning.servicecomb</groupId>
       <artifactId>c-common2</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.3-SNAPSHOT</version>
     </dependency>
 
     <dependency>
