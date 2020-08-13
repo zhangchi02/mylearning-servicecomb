@@ -12,10 +12,8 @@ import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.apache.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.CseSpringDemoCodegen", date = "2018-09-14T06:49:35.957Z")
-
 @RestSchema(schemaId = "commonservicecall")
-@RequestMapping(path = "/springmvcvertxconsumer", produces = MediaType.APPLICATION_JSON)
+@RequestMapping(path = "/${test.url}/springmvcvertxconsumer", produces = MediaType.APPLICATION_JSON)
 public class SpringMVCConsumerImpl {
 
   @Autowired

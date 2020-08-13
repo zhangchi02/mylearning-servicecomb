@@ -1,23 +1,24 @@
-APPLICATION_ID: mylearning-sericecomb
+APPLICATION_ID: mylearning-servicecomb
 service_description:
   name: springmvcvertxconsumer
   version: 0.0.0.1
   properties:
     allowCrossApp: false
+  environment: development
 cse:
   service:
     registry:
-      address: https://cse.cn-north-1.myhuaweicloud.com
+      address: https://cse.cn-south-1.myhuaweicloud.com
       instance:
         watch: false
   config:
     client:
-      serverUri: https://cse.cn-north-1.myhuaweicloud.com
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com
       refreshMode: 1
       refresh_interval: 5000
   monitor:
     client:
-      serverUri: https://cse.cn-north-1.myhuaweicloud.com
+      serverUri: https://cse.cn-south-1.myhuaweicloud.com
       enabled: false
   rest:
     address: 0.0.0.0:9090
@@ -25,5 +26,5 @@ cse:
   credentials:
     accessKey: ak
     secretKey: sk
-    akskCustomCipher: default
-    project: cn-north-1
+#    akskCustomCipher: default
+#    project: cn-north-1
