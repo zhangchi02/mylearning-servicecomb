@@ -15,21 +15,13 @@
     <module>c-provider</module>
     <module>c-simple</module>
     <module>customconfigfile</module>
-    <module>pojo-vertx-provider</module>
-    <module>pojo-vertx-consumer</module>
-    <module>pojo-common</module>
-    <module>pojo-servlet-consumer</module>
-    <module>pojo-servlet-provider</module>
     <module>springmvc-vertx-consumer</module>
     <module>springmvc-vertx-provider</module>
     <module>service-with-log4j2</module>
     <module>cutomized-service-contract</module>
-    <module>springboot2-edge</module>
-    <module>springboot2-servlet-jar</module>
-    <module>springboot2-servlet-war</module>
-    <module>springboot2-vertx-jar</module>
     <module>springboot-servlet-jar</module>
     <module>springboot-servlet-war</module>
     <module>springboot-vertx-jar</module>
+    <module>MockLocalServiceCenter</module>
   </modules>
 </project>
