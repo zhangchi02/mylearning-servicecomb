@@ -1,0 +1,25 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: ""
+  x-java-interface: "cse.gen.mylearning_servicecomb.customconfigfile.common.FromDependencyServiceImplIntf"
+basePath: "/"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /thirdUrl:
+    get:
+      operationId: "thirdUrl"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"
