@@ -1,0 +1,215 @@
+#APPLICATION_ID: mylearning-servicecomb
+#service_description:
+#  name: consumer
+#  version: 0.0.0.3
+#  properties:
+#    allowCrossApp: true
+#  environment: development
+servicecomb:
+  service:
+    application: mylearning-servicecomb
+    name: consumer
+    version: 0.0.0.3
+    #    environment: development
+    registry:
+      #      address: https://cse.cn-north-1.myhuaweicloud.com
+      address: https://119.3.6.95:30100
+      instance:
+        watch: true            # watch机制可以快速感知实例变化
+        #        healthCheck:
+        #          interval: 30          # 健康检查间隔时间，默认30秒，可选
+        #          times: 3              # 健康检查检测次数，默认3次，可选
+      #        diagnose:
+      #          interval: 12          # 实例诊断间隔，默认24小时。
+      client:
+        timeout:
+          #          connection: 30000
+          heartbeat: 3000
+    registry-north-4:
+      address: https://cse.cn-north-1.myhuaweicloud.com
+      #      address: http://127.0.0.1:30110
+      instance:
+        watch: false
+  config:
+    client:
+      #      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      serverUri: https://119.3.6.95:30103
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      #      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      serverUri: https://119.3.6.95:30109
+      enabled: true
+  handler:
+    chain:
+      Provider:
+        default: provider-handler,bizkeeper-provider
+      Consumer:
+        default: client-handler,loadbalance,bizkeeper-consumer
+  #        default: auth-consumer,bizkeeper-consumer,loadbalance,perf-stats
+  rest:
+    #    address: 0.0.0.0:7071?sslEnabled=false?protocol=http2
+    address: 0.0.0.0:7081
+    client:
+      http2:
+        useAlpnEnabled: true    # 默认值true，是否启用 ALPN
+        multiplexingLimit: -1   # 默认值-1，一条连接中，同时支持的最大的stream并发量，-1表示不限制	以server端的concurrentStreams和client端的multiplexingLimit较小值为准
+        maxPoolSize: 1          # 默认值1，每个连接池中，对每一个IP：Port最多建立的连接数
+        idleTimeoutInSeconds: 0 # 默认值0，空闲连接的超时时间，超时后会关闭连接
+      connection:
+        idleTimeoutInSeconds: 30   #单位秒
+    server:
+      http2:
+        useAlpnEnabled: true  # 默认值true，是否启用 ALPN
+        concurrentStreams: 100 # 默认值100，一条连接中，同时支持的最大的stream并发量	以server端的concurrentStreams和client端的multiplexingLimit较小值为准
+      connection:
+        idleTimeoutInSeconds: 60 # 服务端连接超时时间，一个连接在指定时间内没有接收到请求
+  #  highway:
+  #    address: 0.0.0.0:7082
+  isolation:
+    Consumer:
+      maxConcurrentRequests: 20
+  request:
+    timeout: 30000
+    simple:
+      simpleService:
+        sayOh:
+          timeout: 1
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+    #    project: cn-north-1
+    akskCustomCipher: default
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false    # 是否在默认的日志中打印metrics日志
+      window_time: 10000 # metrics日志打印周期
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %H %SCB-traceId"
+    request:
+      enabled: true  # client 端开启 request log
+      pattern: "%h %SCB-transport - - %t %r %s %D" ## client 端自定义 request log 日志格式
+  #  references:
+  #    version-rule: 0+  # 在cse-solution-service-engine默认配置为0+
+  #    simple:
+  #      version-rule: 0.0.0.0+
+  loadbalance:
+    #    provider:   # 这里表示配置对名为"provider"的服务生效，如果是跨应用调用，则还需要加上AppID，如"AppIDOfProvider:provider"
+    #      transactionControl:
+    #        options:
+    #          tags:
+    #            myinstancekey2: myinstancevalue2
+    retryEnabled: false  # 在cse-solution-service-engine默认配置为true
+    retryOnNext: 1
+    retryOnSame: 0
+    isolation:
+      enabled: false
+  circuitBreaker:
+    Consumer:
+      enabled: true
+      sleepWindowInMilliseconds: 5000
+      requestVolumeThreshold: 3
+      errorThresholdPercentage: 50
+  fallback:
+    Consumer:
+      enabled: true
+      maxConcurrentRequests: 3
+  fallbackpolicy:
+    Consumer:
+      policy: custom
+  #  darklaunch:
+  #    policy:
+  #      simple: "{\"policyType\":\"RULE\",\"ruleItems\":[{\"groupName\":\"test\",\"groupCondition\":\"version=0.0.0.2\",\"policyCondition\":\"name=test\"}]}"
+  #servicecomb:
+  ##  release_way: canary
+  router:
+    type: router
+#  routeRule:
+#    provider: | #服务名
+#      - precedence: 1
+#        route:
+#          - weight: 20
+#            tags:
+#              version: 0.0.0.1
+#          - weight: 80
+#            tags:
+#              version: 0.0.0.2
+#  executors:
+#    Provider:
+#      commonServiceConsumer:
+#        helloReactive: cse.executor.groupThreadPool
+
+ssl:
+  rest:
+    #    provider:
+    #      protocols: TLSv1.2
+    #      authPeer: false
+    #      checkCN:
+    #        host: false
+    #      trustStore: trust.jks
+    #      trustStoreType: JKS
+    #      trustStoreValue: Changeme_123
+    #      keyStore: server.p12
+    #      keyStoreType: PKCS12
+    #      keyStoreValue: Changeme_123
+    #      crl: revoke.crl
+    #      sslCustomClass: com.zhc.utils.DemoSSLCustom
+    consumer:
+      protocols: TLSv1.2
+      authPeer: true
+      checkCN:
+        host: false
+      trustStore: trust.jks
+      trustStoreType: JKS
+      trustStoreValue: Changeme_123
+      keyStore: server.p12
+      keyStoreType: PKCS12
+      keyStoreValue: Changeme_123
+      crl: revoke.crl
+      sslCustomClass: com.zhc.utils.DemoSSLCustom
+#  sc:
+#    consumer:
+#      protocols: TLSv1.2
+#      authPeer: false
+#      checkCN:
+#        host: false
+#      trustStore: trust.jks
+#      trustStoreType: JKS
+#      trustStoreValue: Changeme_123
+#      keyStore: server.p12
+#      keyStoreType: PKCS12
+#      keyStoreValue: Changeme_123
+#      crl: revoke.crl
+#      sslCustomClass: com.zhc.utils.DemoSSLCustom
+##########SSL options
+#ssl.rest.consumer.protocols: TLSv1.2
+#ssl.rest.consumer.authPeer: true
+#ssl.rest.consumer.checkCN.host: false
+#
+##########certificates config
+#ssl.rest.consumer.trustStore: trust.jks
+#ssl.rest.consumer.trustStoreType: JKS
+#ssl.rest.consumer.trustStoreValue: Changeme_123
+#ssl.rest.consumer.keyStore: server.p12
+#ssl.rest.consumer.keyStoreType: PKCS12
+#ssl.rest.consumer.keyStoreValue: Changeme_123
+#ssl.rest.consumer.crl: revoke.crl
+#ssl.rest.consumer.sslCustomClass: com.zhc.utils.DemoSSLCustom
+#
+##########SSL options
+#ssl.rest.provider.protocols: TLSv1.2
+#ssl.rest.provider.authPeer: false
+#ssl.rest.provider.checkCN.host: false
+#
+##########certificates config
+#ssl.rest.provider.trustStore: trust.jks
+#ssl.rest.provider.trustStoreType: JKS
+#ssl.rest.provider.trustStoreValue: Changeme_123
+#ssl.rest.provider.keyStore: server.p12
+#ssl.rest.provider.keyStoreType: PKCS12
+#ssl.rest.provider.keyStoreValue: Changeme_123
+#ssl.rest.provider.crl: revoke.crl
+#ssl.rest.provider.sslCustomClass: com.zhc.utils.DemoSSLCustom

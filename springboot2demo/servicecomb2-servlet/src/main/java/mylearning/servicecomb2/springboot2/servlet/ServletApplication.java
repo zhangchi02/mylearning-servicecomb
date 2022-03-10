@@ -3,8 +3,10 @@ package mylearning.servicecomb2.springboot2.servlet;
 import org.apache.servicecomb.springboot2.starter.EnableServiceComb;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+//@ComponentScan("mylearning.servicecomb2.springboot2")
 @EnableServiceComb
 public class ServletApplication {
   public static void main(String[] args) {

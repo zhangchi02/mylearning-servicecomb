@@ -1,0 +1,4 @@
+mylearning.servicecomb.filter.DemoFilter
+#mylearning.servicecomb.filter.CatchSpecialStatusFilter
+#mylearning.servicecomb.filter.CatchExceptionFilter
+#mylearning.servicecomb.filter.SelfServerRestArgsFilter

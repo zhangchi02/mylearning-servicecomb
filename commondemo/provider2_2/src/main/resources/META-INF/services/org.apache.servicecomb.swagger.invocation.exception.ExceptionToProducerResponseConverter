@@ -1,0 +1,4 @@
+mylearning.servicecomb2_2.exception.IllegalArgumentExceptionConverter
+mylearning.servicecomb2_2.exception.CustomizedExceptionConverter
+#mylearning.servicecomb2_2.exception.ArithmeticExceptionConverter
+mylearning.servicecomb2_2.exception.GlobalExceptionConverter

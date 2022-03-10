@@ -1,25 +1,34 @@
 server:
   port: 32012
+  tomcat:
+    accesslog:
+      enabled: true
+      pattern: '%h %l %u %t "%r" %s %b %D'
+      directory: accesslogs
+      buffered: false
+    basedir: ./logs
 
 APPLICATION_ID: mylearning-servicecomb
 service_description:
   name: servicecomb2servlet
   version: 0.0.1
+  environment: development
 cse:
   service:
     registry:
-      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      address: https://cse.cn-north-1.myhuaweicloud.com
+#      address: http://192.168.0.125:30100
       instance:
         watch: false
   config:
     ignoreResolveFailure: true
     client:
-      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com
       refreshMode: 1
       refresh_interval: 5000
   monitor:
     client:
-      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com
       enabled: false
   metrics:
     publisher:
@@ -32,7 +41,7 @@ cse:
   credentials:
     accessKey: ${AK}
     secretKey: ${SK}
-  #    project: cn-south-1
+  #    project: cn-north-1
   #    akskCustomCipher: default
   accesslog:
     enabled: true

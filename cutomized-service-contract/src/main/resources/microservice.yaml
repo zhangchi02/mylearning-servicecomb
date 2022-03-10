@@ -1,31 +1,31 @@
 APPLICATION_ID: mylearning-servicecomb
 service_description:
-  name: contractfirst
-  version: 0.0.0.1
-  environment: development
+  name: constractfirst
+  version: 0.0.0.2
+#  environment: development
 cse:
   service:
     registry:
-      address: https://cse.cn-south-1.myhuaweicloud.com:443
+      address: https://cse.cn-north-1.myhuaweicloud.com:443
       instance:
         watch: false
   config:
     log:
       verbose: false
     client:
-      serverUri: https://cse.cn-south-1.myhuaweicloud.com:443
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
       refreshMode: 1
       refresh_interval: 5000
-#  monitor:
-#    client:
-#      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
-#      enabled: false
+  monitor:
+    client:
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com:443
+      enabled: false
   rest:
-    address: 0.0.0.0:8080
+    address: 0.0.0.0:8081
   credentials:
     accessKey: ${AK}
     secretKey: ${SK}
-    project: cn-south-1
+    project: cn-north-1
     akskCustomerCipher: default
   metrics:
     publisher:
@@ -35,3 +35,6 @@ cse:
   accesslog:
     enabled: false
     pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"
+servicecomb:
+  codec:
+    printErrorMessage: true

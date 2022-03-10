@@ -1,0 +1,3 @@
+mylearning.servicecomb2.filter.DemoFilter
+mylearning.servicecomb2.filter.CatchSpecialStatusFilter
+#mylearning.servicecomb2.filter.CatchExceptionFilter

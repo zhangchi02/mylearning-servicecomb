@@ -1,0 +1,76 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  #  title: "swagger definition for mylearning.servicecomb.contract.service.CommonServiceImpl"
+  title: ""
+#  x-java-interface: "cse.gen.mylearning_servicecomb.contractfirst.CommonService.CommonServiceImplIntf"
+basePath: "/CommonServiceImpl"
+#consumes:
+#- "application/json"
+#produces:
+#- "application/json"
+paths:
+  /sayHello:
+    get:
+      operationId: "sayHello"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"
+  /duplicateName:
+    get:
+      operationId: "duplicateName"
+      parameters:
+        - name: "content"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "queryRequestId"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "headerRequestId"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "response of 200"
+          schema:
+            type: "string"
+  /callQueryGender:
+    get:
+      operationId: "callQueryGender"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "person"
+          required: false
+          schema:
+            $ref: "#/definitions/Person"
+      responses:
+        200:
+          description: "response of 200"
+          schema:
+            type: "string"
+definitions:
+  Person:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      gender:
+        type: "string"
+    #      data:
+    #        description: "data"
+    x-java-class: "mylearning.servicecomb.contract.common.Person"

@@ -1,0 +1,3 @@
+#mylearning.servicecomb.exception.IllegalArgumentExceptionConverter
+#mylearning.servicecomb.exception.CustomizedExceptionConverter
+#mylearning.servicecomb.exception.ArithmeticExceptionConverter

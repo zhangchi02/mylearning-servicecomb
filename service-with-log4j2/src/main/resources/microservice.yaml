@@ -2,6 +2,7 @@ APPLICATION_ID: mylearning-servicecomb
 service_description:
   name: servicewithlog4j2
   version: 0.0.0.1
+  environment: development
 cse:
   service:
     registry:

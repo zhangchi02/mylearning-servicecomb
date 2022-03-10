@@ -1,6 +1,9 @@
 package mylearning.servicecomb.contract.service;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.servicecomb.provider.pojo.RpcSchema;
@@ -21,17 +24,23 @@ public class RPCServiceImpl implements RPCService {
     return person;
   }
 
-  public String findPerson() {
-    return "overload";
+//  public String findPerson() {
+//    return "overload";
+//  }
+
+  public String queryGender(String name, Person person) {
+    Person p = null;
+    if (person == null) {
+      p = new Person("zhangsan", "male");
+    } else {
+      p = person;
+    }
+    return p.getGender();
   }
 
-  public String queryGender(String name) {
-    Person person = new Person("java", "male");
-    String gender = "";
-    if ("java".equalsIgnoreCase(name)) {
-      gender = person.getGender();
-    }
-    return gender;
+  public String queryGender2(String name) {
+    Person p = new Person("lisi", "female");
+    return p.getGender();
   }
 
   public Person savePerson(Person person) {
@@ -46,5 +55,18 @@ public class RPCServiceImpl implements RPCService {
   public MyDTO saveMyDTO(@Valid MyDTO myDTO) {
     LOG.info("myDTO:{}.", myDTO);
     return myDTO;
+  }
+
+  public List<Person> listPersons(String gender) {
+    List<Person> list = new ArrayList<>();
+
+    Person person1 = new Person();
+    person1.setName("java");
+    Person person2 = new Person();
+    person2.setName("python");
+
+    list.add(person1);
+    list.add(person2);
+    return list;
   }
 }

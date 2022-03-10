@@ -1,0 +1,37 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: servicecomb2vertx
+  version: 0.0.0.1
+  environment: development
+cse:
+  service:
+    registry:
+      address: https://cse.cn-north-1.myhuaweicloud.com
+#      address: http://192.168.0.125:30100
+      instance:
+        watch: false
+  config:
+    ignoreResolveFailure: true
+    client:
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com
+#      serverUri: http://192.168.0.125:30113
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-north-1.myhuaweicloud.com
+      enabled: true
+  rest:
+    address: 0.0.0.0:8080
+  handler:
+    chain:
+      Provider:
+        default: ProviderHandler,qps-flowcontrol-provider
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+  #    project: cn-north-1
+    akskCustomCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"

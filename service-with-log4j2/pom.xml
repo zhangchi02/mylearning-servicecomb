@@ -11,7 +11,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<demo.main>mylearning.servicecomb.log4j2.Log4j2Main</demo.main>
-		<cse.version>2.3.73</cse.version>
+		<cse.version>3.0.0</cse.version>
 		<log4j.version>2.11.1</log4j.version>
 	</properties>
 

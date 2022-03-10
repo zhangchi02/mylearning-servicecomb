@@ -1,5 +1,8 @@
 package mylearning.servicecomb.springboot2.vertx.controller;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,14 @@ public class CommonController {
   @GetMapping("/sayHello")
   public String sayHello(@RequestParam(name = "name") String name) {
     return sayHiPrefix.getValue() + name;
+  }
+
+  @GetMapping("paramValidate")
+  public String paramValidate(
+      @Valid @Pattern(regexp = "^[a-fA-F0-9]{24}$") @RequestParam(value = "marker", defaultValue = "ffffffffffffffffffffffff", required = false) String marker,
+      @RequestParam("offset") String offset) {
+    LOG.info("marker:{},offset:{}.", marker, offset);
+    return "success";
   }
 
 }

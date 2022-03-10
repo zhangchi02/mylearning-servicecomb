@@ -1,0 +1,36 @@
+APPLICATION_ID: mylearning-servicecomb
+service_description:
+  name: simple
+  version: 0.0.0.1
+  environment: development
+cse:
+  service:
+    registry:
+      address: https://cse.cn-north-4.myhuaweicloud.com:443
+      instance:
+        watch: false
+  config:
+    client:
+      serverUri: https://cse.cn-north-4.myhuaweicloud.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-north-4.myhuaweicloud.com:443
+      enabled: true
+  metrics:
+    publisher:
+      defaultLog:
+        enabled: false
+  rest:
+    address: 0.0.0.0:8082?sslEnabled=false
+    server:
+      maxInitialLineLength: 8192
+  credentials:
+    accessKey: ${AK}
+    secretKey: ${SK}
+    project: cn-north-4
+    akskCustomerCipher: default
+  accesslog:
+    enabled: true
+    pattern: "%h - - %t cs-uri %s %B %D %SCB-traceId"

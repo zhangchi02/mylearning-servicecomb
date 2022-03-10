@@ -11,3 +11,8 @@ build/
 *.log
 *.iml
 .DS_Store
+*.zip
+*.jar
+*.gz
+*.tar
+*.1
